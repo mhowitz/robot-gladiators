@@ -78,10 +78,15 @@ var fightOrSkip = function () {
 
 
 var fight = function (enemy) {
+    var isPlayerTurn = true;
+    if (Math.random() > .5) {
+        isPlayerTurn = false;
+    }
     while (playerInfo.health > 0 && enemy.health > 0) {
-        if (fightOrSkip()) {
-            break;
-        }
+        if (isPlayerTurn) {
+            if (fightOrSkip()) {
+                break;
+            }
 
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
         enemy.health = Math.max(0, enemy.health - damage);
@@ -97,6 +102,7 @@ var fight = function (enemy) {
         } else {
             window.alert(enemy.name + " still has " + enemy.health + " health left.");
         }
+    } else {
 
         var damage = randomNumber(enemy.attack - 3, enemy.attack);
         playerInfo.health = Math.max(0, playerInfo.health - damage);
@@ -109,8 +115,9 @@ var fight = function (enemy) {
         } else {
             window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
         }
-
     }
+    isPlayerTurn = !isPlayerTurn;
+  }
 };
 
 var startGame = function () {
@@ -154,7 +161,7 @@ var endGame = function () {
 
 };
 
-var shop = function() {
+var shop = function () {
     var shopOption = window.prompt(
         "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE to make a choice."
     );
